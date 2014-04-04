@@ -1,0 +1,12 @@
+{% load main_extras %}
+
+{% with num_payments=tshirt.payments.count %}
+<h3><span id="num-payments">{{ num_payments }}</span> sold towards goal of <span id="min-orders">{{ tshirt.min_orders }}</span></h3>
+<div class="progress progress-striped progbar">
+    {% with percent=num_payments|progress_percent:tshirt.min_orders %}
+    <div id="campaign-progress-bar" class="progress-bar progress-bar-success" role="progressbar" style="width: {{ percent }}%;">
+        <span class="sr-only">{{ percent }}% Complete</span>
+    </div>
+    {% endwith %}
+</div>
+{% endwith %}

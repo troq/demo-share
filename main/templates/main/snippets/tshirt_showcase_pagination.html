@@ -1,0 +1,24 @@
+{% load endless %}
+
+{% paginate tshirts %}
+
+<div class="row">
+{% for tshirt in tshirts %}
+
+{% url "main:tshirt_page" tshirt_pk=tshirt.pk slug=tshirt.slug as tshirt_url %}
+
+<div class="col-md-3">
+    <div class="portfolio-item">
+        <a class="item-link" href="{{ tshirt_url }}"><img class="img-responsive" src="{{ tshirt.image.url }}"></a>
+        <div class="item-caption">
+            <h3><a href="{{ tshirt_url }}">{{ tshirt.title }}</a></h3>
+            <span>{{ tshirt.selling_price }}</span>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+</div>
+
+{% show_more %}
+

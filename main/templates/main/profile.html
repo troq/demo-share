@@ -1,0 +1,62 @@
+{% extends "main/base.html" %}
+{% load compress %}
+
+{% block initial-static %}
+{{ block.super }}
+{% compress css %}
+<link href="{{ STATIC_URL }}bootstrap-editable/bootstrap-editable.css" rel="stylesheet"/>
+<link href="{{ STATIC_URL }}main/css/profile.css" rel="stylesheet">
+{% endcompress %}
+{% endblock %}
+
+{% block body %}
+
+     <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% if private_profile %}
+                    <ul class="nav nav-pills">
+                        <li class="active"><a href="#showcase" data-toggle="tab">Showcase</a></li>
+                        <li><a href="#detailed" data-toggle="tab">Detailed</a></li>
+                    </ul>
+                    {% endif %}
+                    <h1 class="page-header"><center> {{ profile_user.username }} </center></h1>
+                    <h1 class="tagline">
+                        <small>
+                            <center>
+                                {% if private_profile %}
+                                <a id="tagline" href="#" data-type="text" data-url="{% url 'main-api:profile-update' pk=profile_user.profile.pk %}" data-title="Edit Tagline" {% if profile_user.profile.tagline %}>{{ profile_user.profile.tagline }}{% else %}data-value="">Edit Tagline{% endif %}</a>
+                                {% else %}
+                                {{ profile_user.profile.tagline }}
+                                {% endif %}
+                            </center>
+                        </small>
+                    </h1>
+                </div>
+            </div>
+            {% if private_profile %}
+            <div class="tab-content">
+            {% endif %}
+                <div id="showcase" class="tab-pane active">
+                    {% include "main/snippets/tshirt_showcase_pagination.html" %}
+                </div>
+
+            {% if private_profile %}
+                <div id="detailed" class="tab-pane">
+                    <div id="balance-info" class="alert alert-info">Your current account balance is empty, but hopefully not for long.</div>
+                    {% include "main/snippets/tshirt_detailed_pagination.html" %}
+                </div>
+            </div>
+            {% endif %}
+     </div>   
+
+{% endblock %}
+
+{% block end-static %}
+{{ block.super }}
+{% compress js %}
+<script src="{{ STATIC_URL }}bootstrap-editable/bootstrap-editable.min.js"></script>
+<script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+<script src="{{ STATIC_URL }}main/js/profile.js"></script>
+{% endcompress %}
+{% endblock %}

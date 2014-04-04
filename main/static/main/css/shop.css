@@ -1,0 +1,25 @@
+/*.caption {*/
+  /*height: 130px;*/
+  /*overflow: hidden;*/
+/*}*/
+
+.caption h4 {
+    /*truncates to ellipsis*/
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+
+.thumbnail img {
+  width: 100%;
+}
+
+.thumbnail {
+  padding: 0;
+}
+
+.thumbnail .caption-full {
+  padding: 9px;
+  color: #333;
+}

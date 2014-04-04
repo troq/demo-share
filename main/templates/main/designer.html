@@ -1,0 +1,164 @@
+{% extends 'main/base.html' %}
+{% load compress %}
+
+{% block nav-li-designer-class %}active{% endblock %}
+{% block initial-static %}
+
+{{ block.super }}
+{% compress css %}
+<link href="{{ STATIC_URL }}bfh/dist/css/bootstrap-formhelpers.min.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}bootstrap-colorpalette/css/bootstrap-colorpalette.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}typeahead.js/typeahead.js-bootstrap.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}main/css/designer.css" rel="stylesheet">
+{% endcompress %}
+
+{% endblock %}
+
+{% block alert %}
+<div class="alert alert-info hide">
+    Login or register to publish your design.
+</div>
+{% endblock %}
+
+{% block container %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="fade-in hide" id="titles"> 
+            <form id="tshirt-form" enctype="multipart/form-data" action="#" method="post" accept-charset="utf-8">
+                <div class="tshirt-form-fields">
+                    {% include "main/snippets/tshirt_form.html" with part=1 %}
+                </div>
+            </form>
+            <div class="base-price-display alert alert-info">Base Price: $<span class="base-price"></span></div>
+            <div id="estimated-profit-container" class="well text-center"><div id="profit-premsg"></div><div id="profit"></div></div>
+        </div>
+        <div class="fade-out">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#addtext" data-toggle="tab">Add Text</a>
+                </li>
+                 <li>
+                    <a href="#uploadimage" data-toggle="tab">Add Image</a>
+                </li>
+            </ul>
+            <div class="tab-content well">
+                <div class="tab-pane active" id="addtext">
+                    <form action="" id="user-text-enter">
+                        <div class="form-group">
+                            <label for="user-text-input">Insert text here:</label>
+                            <input type="text" class="form-control input-sm" id="user-text-input">
+                        </div>
+
+                        <!--font picker-->
+                        <div class="bfh-selectbox bfh-fonts" data-family="Helvetica">
+                          <input id="selected-font" type="hidden" value="">
+                          <a class="bfh-selectbox-toggle" role="button" data-toggle="bfh-selectbox" href="#">
+                            <span class="bfh-selectbox-option bfh-selectbox-medium" data-option=""></span>
+                            <b class="caret"></b>
+                          </a>
+                          <div class="bfh-selectbox-options">
+                            <input type="text" class="bfh-selectbox-filter">
+                            <div role="listbox">
+                              <ul role="option">
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div id="colorpicker">
+                            <i class="fa fa-square selected-color dropdown-toggle" data-toggle="dropdown"></i>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div id="colorpalette"></div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button id="save-changes" class="btn btn-primary btn-sm edit hide">Save Changes</button>
+                        <button id="add" class="btn btn-success btn-sm"/>Add Text</button>
+                    </form>
+                </div>
+                <div class="tab-pane" id="uploadimage">
+                    <form id="add-image-form">
+                        <input type="file" accept="image/*" id="add-image-input"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="design-frame">
+            <div id="design">
+                <canvas id="c" width="215" height="350"></canvas>
+                <canvas id="c2" width="215" height="350"></canvas>
+                <div id="canvas-tag" class="hide">Printable Area</div>
+            </div>
+            <img class="center-block" id="background-tshirt" src='{{ STATIC_URL }}main/images/backgroundtshirt.png'></img>
+        </div>
+        <button id="tshirt-toggle" class="btn btn-primary btn-xs center-block" data-front=true><span>Edit</span> <span>back</span></button>
+    </div>
+    <div class="col-md-3">
+        <div class="fade-out">
+            <div class="well">
+                <p>Pick t-shirt type and color.</p>
+                <ul id="tshirt-list" class="list-unstyled">
+                </ul>
+            </div>
+            <div class="base-price-display alert alert-info">Base Price: $<span class="base-price"></span></div>
+            <button class="btn btn-success btn-lg" id="next-button">Next</button>
+        </div>
+        <div class="fade-in hide" id="payments">
+            <!--these are all for #tshirt-form-->
+            <div class="tshirt-form-fields">
+                {% include "main/snippets/tshirt_form.html" with part=2 %}
+            </div>
+            <input form="tshirt-form" type="submit" class="btn btn-success" value="Publish">
+            <button class="btn btn-primary btn-sm" id="prev-button">Back</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block end-static %}
+{{ block.super }}
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+
+{% verbatim %}
+<script id="base-tshirt-template" type="text/x-handlebars-template">
+{{#each tshirts}}
+<li class="base-tshirt {{active}}" data-id="{{id}}" data-type="{{type}}">
+    <div class="row">
+        <div class="col-xs-2">
+            <i class="fa fa-square selected-color dropdown-toggle tshirt-color" data-toggle="dropdown"></i>
+            <ul class="dropdown-menu">
+                <li>
+                    <div class="colorpalette"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-10">
+            <a class="base-tshirt-popover">{{name}}</a>
+        </div>
+    </div>
+</li>
+{{/each}}
+</script>
+
+<script id="tshirt-tag-template" type="text/x-handlebars-template">
+<span class="label label-info">{{name}}</span> x {{num_times}}
+</script>
+{% endverbatim %}
+
+{% compress js %}
+<script src="{{ STATIC_URL }}bfh/dist/js/bootstrap-formhelpers.min.js"></script>
+<script src="{{ STATIC_URL }}bootstrap-colorpalette/js/bootstrap-colorpalette.js"></script>
+<script src="{{ STATIC_URL }}fabric/all.min.js"></script>
+<script src="{{ STATIC_URL }}bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+<script src="{{ STATIC_URL }}typeahead.js/typeahead.min.js"></script>
+<script src="{{ STATIC_URL }}main/js/designer.js"></script>
+{% endcompress %}
+
+
+{% endblock %}

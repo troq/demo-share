@@ -1,0 +1,153 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load compress %}
+{% load main_extras %}
+
+{% block initial-static %}
+{{ block.super }}
+{% compress css %}
+<link href="{{ STATIC_URL }}main/css/tshirt.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}silviomoreto-bootstrap-select-4bc9bfc/bootstrap-select.min.css" rel="stylesheet">
+{% endcompress %}
+{% endblock %}
+
+{% block container %}
+<div class="row">
+    <div class="col-md-6">
+        <img id="tshirt-img" class="img-responsive user-image center-block" src="{% if tshirt.image %}{{ tshirt.image.url }}{% else %}{{ STATIC_URL }}main/images/processing.png{% endif %}">
+        <img id="tshirt-img-back" class="img-responsive user-image center-block" src="{% if tshirt.image_back %}{{ tshirt.image_back.url }}{% else %}{{ STATIC_URL }}main/images/processing_back.png{% endif %}">
+        <button id="tshirt-toggle" class="btn btn-primary btn-xs center-block" data-front=true>See back</button>
+    </div>
+
+    <div class="col-md-6">
+        <h3>{{tshirt.title}}</h3>
+        <p>{{ tshirt.description }}</p>
+        <p><small>Printed on {{ tshirt.color.basetshirt.name }}</small></p>
+        <h4>Price: ${{ tshirt.selling_price }}</h4>
+
+
+        <form id="payment-form" action="" method="POST">
+            {% csrf_token %}
+            {% include "main/snippets/tshirt_payment_form.html" %}
+            <button class="btn btn-success btn-lg " id="customButton">Get this shirt</button>
+        </form>
+
+        {% include "main/snippets/progress_bar.html" %}
+
+        <h3>Share this design!</h3>
+        <p>
+            <span class='st_facebook_large' displayText='Facebook'></span>
+            <span class='st_twitter_large' displayText='Tweet' st_title="Hey everyone, check out this shirt I just made! Follow @trdemo #demo" st_via=""></span>
+            <span class='st_tumblr_large' displayText='Tumblr'></span>
+            <span class='st_pinterest_large' displayText='Pinterest'></span>
+            <span class='st_reddit_large' displayText='Reddit'></span>
+        </p>
+    </div>
+</div>
+
+{% if similar_tshirts %}
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">Related Tshirts</h3>
+    </div>
+
+    {% for similar_tshirt in similar_tshirts %}
+        <div class="col-sm-3 col-xs-6">
+            <a href="{% url "main:tshirt_page" tshirt_pk=similar_tshirt.pk slug=similar_tshirt.slug %}"><img class="img-responsive portfolio-item" src="{{ similar_tshirt.image.url }}"></a>
+            
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div id="form-fail-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Payment failed</h4>
+            </div>
+            <div class="modal-body">
+                <p>There was a problem with the form submitted. Please refresh the page and try again. If the problem persists please contact support.</p>
+            </div>
+        </div><!-- /.modal-content -->
+        <div class="modal-footer">
+            <a href="." class="btn btn-default">Refresh page</a>
+        </div>
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div id="form-success-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Thanks for getting this shirt!</h4>
+            </div>
+            <div class="modal-body">
+                <p>An order summary will be sent to your email when this campaign is over. You won't be charged for this t-shirt unless this campaign succeeds, and if the campaign doesn't succeed you won't be charged at all.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Stay on this page</button>
+                <a href="/shop/" class="btn btn-primary">Continue shopping</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div id="checkout-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirm and get this shirt</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <img id="checkout-tshirt-img" class="img-responsive user-image center-block" src="{% if tshirt.image %}{{ tshirt.image.url }}{% else %}{{ STATIC_URL }}main/images/processing.png{% endif %}">
+                    </div>
+                    <div class="col-lg-6">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Order</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>T-shirt</td>
+                                    <td>${{ tshirt.selling_price }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping</td>
+                                    <td>$3.87</td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td>${{ tshirt.selling_price|add_real:3.87}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button id="checkout-btn" type="button" class="btn btn-success text-center" data-dismiss="modal">Get this shirt</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+{% endblock %}
+
+{% block end-static %}
+{{ block.super }}
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
+<script> var tshirt = { 'price'    : {{ tshirt.selling_price }}, 'username' : '{{ tshirt.user.username }}', 'title'    : '{{ tshirt.title|escapejs }}', 'pub_key'  : '{{ pub_key }}', 'firebaseTshirtUrl': '{{ firebase_tshirt_url }}', 'date_created': new Date('{{ tshirt.date_created }}'), 'days_left': {{ tshirt.days_left }}, } </script>
+{% compress js %}
+<script src="{{ STATIC_URL }}silviomoreto-bootstrap-select-4bc9bfc/bootstrap-select.min.js"></script>
+<script src="{{ STATIC_URL }}main/js/tshirt.js"></script>
+{% endcompress %}
+{% endblock %}

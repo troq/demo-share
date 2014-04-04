@@ -1,0 +1,10 @@
+<li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        {{ user.username }}
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="{% url 'main:profile' user_pk=user.pk %}">My Account</a></li>
+        <li><a href="{% url 'auth_logout' %}">Log Out</a></li>
+    </ul>
+</li>

@@ -1,0 +1,63 @@
+{% extends 'main/base.html' %}
+{% load endless %}
+{% load compress %}
+
+{% block initial-static %}
+{{ block.super }}
+<link href="{{ STATIC_URL }}main/css/shop.css" rel="stylesheet">
+{% endblock %}
+
+{% block container %}
+
+  <div class="row">
+
+    <div class="col-md-3">
+      <p class="lead">Shop</p>
+      <ul id="tag-list" class="list-group">
+          <li class="list-group-item"><a href="?">All tags</a></li>
+      </ul>
+    </div>
+
+    <div class="col-md-9">
+        {% paginate TSHIRT_SHOP_PAGINATION_PER_PAGE tshirts %}
+
+        <div class="row">
+            {% for tshirt in tshirts %}
+
+            {% url "main:tshirt_page" tshirt_pk=tshirt.pk slug=tshirt.slug as tshirt_url %}
+
+            <div class="col-sm-4 col-lg-4 col-md-4">
+                <div class="thumbnail">
+                    <a href="{{ tshirt_url }}"><img src="{{ tshirt.image.url }}" alt=""></a>
+                    <div class="caption">
+                        <h4 class="pull-right">${{ tshirt.selling_price }}</h4>
+                        <h4><a href="{{ tshirt_url }}">{{ tshirt.title }}</a></h4>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% show_pages %}
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block end-static %}
+{{ block.super }}
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+
+{% verbatim %}
+<script id="tag-list-template" type="text/x-handlebars-template">
+{{#each .}}
+<li class="list-group-item">
+    <a href="?filter={{name}}">{{name}} x {{num_times}}</a>
+</li>
+{{/each}}
+</script>
+{% endverbatim %}
+
+<script src="{{ STATIC_URL }}main/js/shop.js"></script>
+{% endblock %}

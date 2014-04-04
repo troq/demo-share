@@ -1,0 +1,90 @@
+.portfolio-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.portfolio-item>a {
+    position: relative;
+    display: block;
+    max-width: 100%;
+    opacity: 1;
+}
+
+.portfolio-item .item-caption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    background-color: #2c3f52;
+    color: #18bc9c;
+    width: 100%;
+    opacity: 0;
+    backface-visibility: hidden;
+    box-shadow: 0 0 0 0px #2c3f52;
+    transition: opacity 0.3s, height 0.3s, box-shadow 0.3s;
+}
+
+.portfolio-item:hover .item-caption {
+    opacity: 1;
+    height: 130%;
+    box-shadow: 0 0 0 10px #2c3f52;
+}
+
+.portfolio-item .item-caption h3 {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    margin-top: 143%;
+    margin-bottom: 2px;
+
+    /*truncates too ellipsis*/
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+
+.portfolio-item .item-caption h3,
+.portfolio-item .item-caption span,
+.portfolio-item .item-caption a {
+    opacity: 0;
+    transition: opacity 0s;
+}
+
+.portfolio-item .item-caption span:before {
+    content: '$';
+}
+ 
+.portfolio-item .item-caption a {
+    color: white;
+}
+
+.portfolio-item:hover .item-caption h3,
+.portfolio-item:hover .item-caption span,
+.portfolio-item:hover .item-caption a {
+	transition: opacity 0.3s 0.2s;
+    opacity: 1;
+}
+
+.nav-pills {
+    margin-top: 10px;
+}
+
+.tagline {
+	margin-bottom: 30px;
+}
+
+.progbar {
+	height: 50px;
+}
+
+#balance-info {
+    font-size: 14px;
+}
+
+#image-link {
+	display: block;
+	width: 269px;
+	margin-left: auto;
+	margin-right: auto;
+	float: none;

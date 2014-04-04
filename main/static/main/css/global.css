@@ -1,0 +1,41 @@
+.asteriskField {
+    display: none;
+}
+
+body {
+	margin-top: 45px;
+}
+
+body.modal-open {
+    margin-right: 0;
+}
+
+#login-modal button.close {
+    position: absolute;
+    right: 20px;
+    z-index: 10;
+}
+
+.modal-open .navbar-fixed-top {
+    margin-right: 0;
+}
+
+footer {
+	padding: 30px 0;	
+}
+
+a.dropdown-toggle {
+    cursor: pointer;
+}
+
+a.dropdown-toggle>b.caret {
+    border-top-color: #fff;
+}
+
+.navbar-toggle span.fa-reorder {
+    color: #fff;
+}
+
+#body-container {
+    padding-top: 20px;
+}

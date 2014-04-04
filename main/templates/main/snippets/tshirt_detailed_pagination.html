@@ -1,0 +1,27 @@
+{% load endless %}
+
+{% paginate tshirts using "detailed_pagination" %}
+
+{% for tshirt in tshirts %}
+<div class="row">
+
+    <div class="col-lg-4 col-md-4">
+        <a href="{% url "main:tshirt_page" tshirt_pk=tshirt.pk slug=tshirt.slug %}" id="image-link"><img class="img-responsive" src="{{ tshirt.image.url }}"></a>
+    </div>
+
+    <div class="col-lg-8 col-md-8">
+        <h2>{{ tshirt.title }}</h2>
+        <p>{{ tshirt.description }}</p>
+        <p>Printed on {{ tshirt.color.basetshirt.name }}</p>
+        <p>Price: ${{ tshirt.selling_price }}</p>
+        {% include "main/snippets/progress_bar.html" %}
+        <a class="btn btn-primary" href="{% url "main:tshirt_page" tshirt_pk=tshirt.pk slug=tshirt.slug %}">View Shirt <span class="fa fa-chevron-right"></span></a>
+    </div>
+
+</div>
+
+<hr/>
+{% endfor %}
+
+{% show_more %}
+

@@ -1,0 +1,13 @@
+{% load widget_tweaks %}
+
+<div id="size-picker">
+    {{ form.tshirt_size|add_class:"selectpicker" }}
+</div>
+{{ form.stripe_token }}
+{{ form.email }}
+{{ form.shipping_name }}
+{{ form.shipping_country }}
+{{ form.shipping_city }}
+{{ form.shipping_street }}
+{{ form.shipping_state }}
+{{ form.shipping_zip }}

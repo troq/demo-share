@@ -1,0 +1,25 @@
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+{% if part == 1 %}
+    {{ form.selling_price|attr:"form:tshirt-form"|as_crispy_field }}
+    <div id="min-order-section" >
+        {{ form.min_orders|attr:"form:tshirt-form"|as_crispy_field }}
+        {{ form.days_left|attr:"form:tshirt-form"|as_crispy_field }}
+    </div>
+{% else %}
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+        {{ error }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {{ form.title|as_crispy_field }}
+    {{ form.description|as_crispy_field }}
+    {{ form.tags|as_crispy_field }}
+    {{ form.design }}
+    {{ form.design_back }}
+    {{ form.base_tshirt_id }}
+    {{ form.base_tshirt_color }}
+{% endif %}

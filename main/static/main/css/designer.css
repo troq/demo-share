@@ -1,0 +1,124 @@
+#user-text-enter .bfh-selectbox {
+    margin-top: 15px;
+}
+
+#user-text-enter input[type="submit"], #user-text-enter button {
+    margin-top: 15px;
+}
+
+#colorpicker {
+    position: relative;
+}
+
+.selected-color {
+    color: #000;
+    font-size: 20px;
+}
+
+.selected-color.tshirt-color {
+    color: #fff;
+}
+
+.selected-color:hover {
+    cursor: pointer;
+}
+
+#design-frame {
+	width: 530px;
+	height: 570px;
+    overflow: hidden;
+    position: relative;
+	/*ALLOW USER TO CHANGE "background-color:" based on color of t shirt*/
+}
+
+#design {
+    margin-top: 130px;
+    width: 215px; /* the width of the canvas*/
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+#background-shirt {
+    width: 530px;
+}
+
+.canvas-container {
+    border: 2px dashed transparent;
+}
+
+.canvas-container:not(.uneditable):hover {
+    border-color: #aaa;
+}
+
+#canvas-tag {
+    width: 115px;
+    color: #fff;
+    background-color: #545454;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-top: 1px;
+}
+
+#tshirt-list {
+    margin-bottom: 0;
+}
+
+.base-tshirt {
+    cursor: pointer;
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    height: 60px;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.base-tshirt.active {
+    background-color: #b2b4b5;
+}
+
+.base-tshirt:not(.active):hover {
+    border-color: #b2b4b5;
+}
+
+.base-tshirt .selected-color {
+    line-height: 40px;
+}
+
+.base-price-display {
+    width: 150px;
+    font-size: 15px;
+}
+
+#estimated-profit-container {
+    font-size: 20px;
+}
+
+#profit {
+    font-size: 60px;
+    color: #43ac6a;
+}
+
+
+#fade-in {
+    margin-top: 20px;
+    margin-left: 70px;
+    position: relative;
+}
+
+#min-order-section.unchecked {
+    display: none;
+}
+
+.bootstrap-tagsinput {
+    width: 100%;
+}
+
+#tshirt-toggle {
+    margin-top: 20px;
+}
